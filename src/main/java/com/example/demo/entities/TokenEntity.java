@@ -21,9 +21,18 @@ public class TokenEntity {
     @JsonIgnore
     private UserEntity userEntity;
 
+    public TokenEntity() {
+    }
+
     public TokenEntity(UserEntity userEntity) {
         this.userEntity = userEntity;
         this.token = UUID.randomUUID().toString();
+    }
+
+    public TokenEntity(Long id, String token, UserEntity userEntity) {
+        this.id = id;
+        this.token = token;
+        this.userEntity = userEntity;
     }
 
     public Long getId() {

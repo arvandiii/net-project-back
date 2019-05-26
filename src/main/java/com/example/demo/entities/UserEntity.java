@@ -26,8 +26,8 @@ public class UserEntity {
     private String email;
     private Role role;
 
-    private void setPassword(String password) {
-        this.password = Utils.hash(password);
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Long getId() {

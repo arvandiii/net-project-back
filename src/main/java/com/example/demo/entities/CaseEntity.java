@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "token")
+@Table(name = "case")
 public class CaseEntity {
     @JsonIgnore
     @Id

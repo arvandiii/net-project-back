@@ -6,6 +6,7 @@ import com.example.demo.entities.UserEntity;
 import com.example.demo.repository.TokenRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.utils.ResponseWithData;
+import com.example.demo.utils.Utils;
 import org.springframework.stereotype.Controller;
 
 @Controller
@@ -53,6 +54,7 @@ public class UserController {
             return new ResponseWithData<>(false, "email exists", null);
         }
 
+        userEntity.setPassword(Utils.hash(userEntity.getPassword()));
         userRepository.save(userEntity);
 
         return new ResponseWithData<>(true, "user registered", userEntity);
@@ -65,13 +67,18 @@ public class UserController {
             return new ResponseWithData<>(false, "username doesnt exists", null);
         }
 
-        if (userFromDB.getPassword() != userEntity.getPassword()) {
+        if (!userFromDB.getPassword().equals(Utils.hash(userEntity.getPassword()))) {
             return new ResponseWithData<>(false, "password incorrect", null);
         }
 
-        TokenEntity tokenEntity = new TokenEntity(userEntity);
+        TokenEntity tokenEntity = new TokenEntity(userFromDB);
         tokenRepository.save(tokenEntity);
 
         return new ResponseWithData<>(true, "login", tokenEntity);
+    }
+
+    public UserEntity getUserByToken(String token) {
+        TokenEntity tokenEntity = tokenRepository.findByToken(token);
+        return tokenEntity.getUserEntity();
     }
 }

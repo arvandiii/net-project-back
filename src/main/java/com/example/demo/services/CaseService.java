@@ -28,12 +28,17 @@ public class CaseService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/new")
-    public Response newCase(@HeaderParam("Authorization") String auth, CaseEntity caseEntity) {
-        if (auth == null) {
+    public Response newCase(@HeaderParam("Authorization") String token, CaseEntity caseEntity) {
+        System.out.println("omadeeeee inja\t" + token);
+        if (token == null) {
+            return new ResponseWithData<CaseEntity>(false, "no token provided", null).buildResponse();
+        }
+        UserEntity userEntity = userController.getUserByToken(token);
+        System.out.println("omadeeeee inja\t" + userEntity);
+        if (userEntity == null) {
             return new ResponseWithData<CaseEntity>(false, "invalid token", null).buildResponse();
         }
-        // TODO: check authorization and return user
-        UserEntity userEntity = null;
+        System.out.println("omadeeeee inja\t akharesh");
         return caseController.newCase(caseEntity, userEntity).buildResponse();
     }
 }

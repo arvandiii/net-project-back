@@ -16,7 +16,6 @@ public class CaseController {
 
     public ResponseWithData<CaseEntity> newCase(CaseEntity caseEntity, UserEntity userEntity) {
         caseEntity.setUserEntity(userEntity);
-        CaseEntity savedEntry = caseRepository.save(caseEntity);
-        return new ResponseWithData<>(true, "case created", savedEntry);
+        return new ResponseWithData<>(true, "case created", caseRepository.save(caseEntity));
     }
 }
