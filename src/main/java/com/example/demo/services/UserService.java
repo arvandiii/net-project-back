@@ -2,6 +2,7 @@ package com.example.demo.services;
 
 import com.example.demo.controller.UserController;
 import com.example.demo.entities.UserEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.Consumes;
@@ -17,6 +18,7 @@ public class UserService {
 
     private final UserController userController;
 
+    @Autowired
     public UserService(UserController userController) {
         this.userController = userController;
     }
