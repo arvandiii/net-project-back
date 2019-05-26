@@ -1,25 +1,68 @@
 package com.example.demo.entities;
 
 
+import com.example.demo.utils.Utils;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+
+enum Role {
+    STUDENT,
+    PROFESSOR,
+    STAFF,
+    MANAGER
+}
 
 @Data
 @Entity
+@Table(name = "user")
 public class UserEntity {
 
     private @Id
     @GeneratedValue
     Long id;
-    private String name;
+    private String username;
+    private String password;
+    private String email;
+    private Role role;
 
-    public UserEntity() {
+    private void setPassword(String password) {
+        this.password = Utils.hash(password);
     }
 
-    public UserEntity(String name) {
-        this.name = name;
+    public Long getId() {
+        return id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
