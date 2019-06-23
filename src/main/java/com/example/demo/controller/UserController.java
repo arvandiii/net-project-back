@@ -6,6 +6,7 @@ import com.example.demo.entities.UserEntity;
 import com.example.demo.repository.TokenRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.utils.ResponseWithData;
+import com.example.demo.utils.Role;
 import com.example.demo.utils.Utils;
 import org.springframework.stereotype.Controller;
 
@@ -54,6 +55,9 @@ public class UserController {
             return new ResponseWithData<>(false, "email exists", null);
         }
 
+        if (userEntity.getRole() == Role.STUDENT){
+            userEntity.setVerified(true);
+        }
         userEntity.setPassword(Utils.hash(userEntity.getPassword()));
         userRepository.save(userEntity);
 

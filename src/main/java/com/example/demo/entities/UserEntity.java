@@ -1,21 +1,14 @@
 package com.example.demo.entities;
 
-
-import com.example.demo.utils.Utils;
+import com.example.demo.utils.Role;
 import lombok.Data;
 
 import javax.persistence.*;
 
-enum Role {
-    STUDENT,
-    PROFESSOR,
-    STAFF,
-    MANAGER
-}
 
 @Data
 @Entity
-@Table(name = "user")
+@Table(name = "_user")
 public class UserEntity {
 
     private @Id
@@ -25,6 +18,8 @@ public class UserEntity {
     private String password;
     private String email;
     private Role role;
+    @Column(columnDefinition="tinyint(1) default 0")
+    private boolean isVerified;
 
     public void setPassword(String password) {
         this.password = password;
@@ -64,5 +59,13 @@ public class UserEntity {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public boolean isVerified() {
+        return isVerified;
+    }
+
+    public void setVerified(boolean verified) {
+        isVerified = verified;
     }
 }

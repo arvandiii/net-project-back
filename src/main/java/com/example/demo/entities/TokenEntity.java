@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Data
 @Entity
-@Table(name = "token")
+@Table(name = "_token")
 public class TokenEntity {
     @JsonIgnore
     @Id
