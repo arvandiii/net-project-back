@@ -1,10 +1,11 @@
 package com.example.demo.services;
 
-import com.example.demo.controller.CaseController;
+import com.example.demo.controller.AdminController;
 import com.example.demo.controller.UserController;
 import com.example.demo.entities.CaseEntity;
 import com.example.demo.entities.UserEntity;
 import com.example.demo.utils.ResponseWithData;
+import com.example.demo.utils.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,8 +16,10 @@ import javax.ws.rs.core.Response;
 @Component
 @Path("/admin")
 public class AdminService {
+
     private AdminController adminController;
-    
+    private UserController userController;
+
     @Autowired
     public AdminService(AdminController adminController) {
         this.adminController = adminController;
@@ -37,7 +40,7 @@ public class AdminService {
         if (userEntity.getRole() != Role.MANAGER || !userEntity.isVerified()) {
             return new ResponseWithData<CaseEntity>(false, "unauthorized", null).buildResponse();
         }
-        
+
         return adminController.verifyUser(username).buildResponse();
     }
 }
