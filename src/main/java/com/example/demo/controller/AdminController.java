@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import com.example.demo.entities.CaseEntity;
 import com.example.demo.entities.UserEntity;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.utils.ResponseWithData;
@@ -19,6 +18,6 @@ public class AdminController {
     public ResponseWithData<UserEntity> verifyUser(String username) {
         UserEntity userEntity = userRepository.findByUsername(username);
         userEntity.setVerified(true);
-        return new ResponseWithData<>(true, "case created", userRepository.save(userEntity));
+        return new ResponseWithData<>(true, "user verified", userRepository.save(userEntity));
     }
 }

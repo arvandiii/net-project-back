@@ -21,15 +21,16 @@ public class AdminService {
     private UserController userController;
 
     @Autowired
-    public AdminService(AdminController adminController) {
+    public AdminService(AdminController adminController, UserController userController) {
         this.adminController = adminController;
+        this.userController = userController;
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/verifyUser")
-    public Response verifyUser(@HeaderParam("Authorization") String token, String username) {
+    public Response verifyUser(@HeaderParam("Authorization") String token, UserEntity userEntityWithUsername) {
         if (token == null) {
             return new ResponseWithData<CaseEntity>(false, "no token provided", null).buildResponse();
         }
@@ -41,6 +42,6 @@ public class AdminService {
             return new ResponseWithData<CaseEntity>(false, "unauthorized", null).buildResponse();
         }
 
-        return adminController.verifyUser(username).buildResponse();
+        return adminController.verifyUser(userEntityWithUsername.getUsername()).buildResponse();
     }
 }
