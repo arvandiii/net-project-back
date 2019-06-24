@@ -4,7 +4,6 @@ import com.example.demo.controller.UserController;
 import com.example.demo.entities.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import com.example.demo.controller.CaseController;
 import com.example.demo.entities.CaseEntity;
 import com.example.demo.utils.ResponseWithData;
 
