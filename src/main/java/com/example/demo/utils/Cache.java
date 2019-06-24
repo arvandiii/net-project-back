@@ -14,6 +14,9 @@ public class Cache {
 
     public long getUserIdByToken(String token) {
         String cachedResponse = jedis.get("token:" + token);
+        if (cachedResponse == null) {
+            return -1;
+        }
         return Long.valueOf(cachedResponse);
     }
 }

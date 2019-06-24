@@ -100,12 +100,16 @@ public class UserController {
     }
 
     public UserEntity getUserByToken(String token) {
+        System.out.println("aaaaaaa\t" + token);
         long id = cache.getUserIdByToken(token);
+        System.out.println("bbbbbbb\t" + id);
         if (id != -1) {
+            System.out.println("ccccccc\t" + id);
             return userRepository.findById(id).orElse(null);
         }
         TokenEntity tokenEntity = tokenRepository.findByToken(token);
         UserEntity userEntity = tokenEntity.getUserEntity();
+        System.out.println("ddddddd\t" + userEntity.getId());
         cache.saveTokenUser(token, userEntity.getId());
         return userEntity;
     }
