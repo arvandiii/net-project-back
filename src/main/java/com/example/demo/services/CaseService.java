@@ -7,6 +7,7 @@ import com.example.demo.entities.UserEntity;
 import com.example.demo.utils.ResponseWithData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -37,5 +38,21 @@ public class CaseService {
             return new ResponseWithData<CaseEntity>(false, "invalid token", null).buildResponse();
         }
         return caseController.newCase(caseEntity, userEntity).buildResponse();
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/update")
+    public Response changeCaseStatus(@HeaderParam("Authorization") String token, @RequestBody CaseEntity caseEntity) {
+        System.out.println("aaaaaaa" + caseEntity.getStatus()+caseEntity.getId());
+        if (token == null) {
+            return new ResponseWithData<CaseEntity>(false, "no token provided", null).buildResponse();
+        }
+        UserEntity userEntity = userController.getUserByToken(token);
+        if (userEntity == null) {
+            return new ResponseWithData<CaseEntity>(false, "invalid token", null).buildResponse();
+        }
+        return caseController.updateCase(caseEntity.getId(), caseEntity.getStatus()).buildResponse();
     }
 }
