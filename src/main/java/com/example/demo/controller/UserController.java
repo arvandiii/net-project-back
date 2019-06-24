@@ -81,9 +81,14 @@ public class UserController {
     }
 
     public ResponseWithData<UserEntity> update(UserEntity userEntity, String newPassword, String newEmail) {
-        
-        userEntity.setPassword(Utils.hash(newPassword));
-        userEntity.setEmail(newEmail);
+
+        if (newPassword == null && newEmail == null)
+            return new ResponseWithData<>(false, "username or email should be provided", null);
+
+        if (newPassword != null)
+            userEntity.setPassword(Utils.hash(newPassword));
+        if (newEmail != null)
+            userEntity.setEmail(newEmail);
         userRepository.save(userEntity);
 
         return new ResponseWithData<>(true, "user updated", userEntity);
