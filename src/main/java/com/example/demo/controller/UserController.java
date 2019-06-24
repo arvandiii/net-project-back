@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-
 import com.example.demo.entities.TokenEntity;
 import com.example.demo.entities.UserEntity;
 import com.example.demo.repository.TokenRepository;
@@ -55,7 +54,7 @@ public class UserController {
             return new ResponseWithData<>(false, "email exists", null);
         }
 
-        if (userEntity.getRole() == Role.STUDENT){
+        if (userEntity.getRole() == Role.STUDENT) {
             userEntity.setVerified(true);
         }
         userEntity.setPassword(Utils.hash(userEntity.getPassword()));
@@ -79,6 +78,15 @@ public class UserController {
         tokenRepository.save(tokenEntity);
 
         return new ResponseWithData<>(true, "login", tokenEntity);
+    }
+
+    public ResponseWithData<UserEntity> update(UserEntity userEntity, String newPassword, String newEmail) {
+        
+        userEntity.setPassword(Utils.hash(newPassword));
+        userEntity.setEmail(newEmail);
+        userRepository.save(userEntity);
+
+        return new ResponseWithData<>(true, "user updated", userEntity);
     }
 
     public UserEntity getUserByToken(String token) {
