@@ -4,9 +4,11 @@ import com.example.demo.entities.TokenEntity;
 import com.example.demo.entities.UserEntity;
 import com.example.demo.repository.TokenRepository;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.utils.Cache;
 import com.example.demo.utils.ResponseWithData;
 import com.example.demo.utils.Role;
 import com.example.demo.utils.Utils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 @Controller
@@ -14,10 +16,13 @@ public class UserController {
 
     private final TokenRepository tokenRepository;
     private final UserRepository userRepository;
+    private final Cache cache;
 
-    public UserController(UserRepository userRepository, TokenRepository tokenRepository) {
+    @Autowired
+    public UserController(UserRepository userRepository, TokenRepository tokenRepository, Cache cache) {
         this.tokenRepository = tokenRepository;
         this.userRepository = userRepository;
+        this.cache = cache;
     }
 
     private boolean isUserDataValid(UserEntity userEntity) {
@@ -95,7 +100,13 @@ public class UserController {
     }
 
     public UserEntity getUserByToken(String token) {
+        long id = cache.getUserIdByToken(token);
+        if (id != -1) {
+            return userRepository.findById(id).orElse(null);
+        }
         TokenEntity tokenEntity = tokenRepository.findByToken(token);
-        return tokenEntity.getUserEntity();
+        UserEntity userEntity = tokenEntity.getUserEntity();
+        cache.saveTokenUser(token, userEntity.getId());
+        return userEntity;
     }
 }
